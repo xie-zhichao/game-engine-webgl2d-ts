@@ -1,0 +1,56 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\l\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\l\bin;C:\Program Files (x86)\NetSarang\Xshell 6;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\nodejs;C:\WINDOWS\System32\OpenSSH;C:\Program Files\OpenVPN\bin;C:\Program Files\Java\jdk1.8.0_191\bin;D:\programs\apache-maven-3.6.0\bin;C:\Users\l\git\flutter\bin;C:\Program Files\Dart\dart-sdk\bin;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Users\l\AppData\Local\Programs\Python\Python37\Scripts;C:\Users\l\AppData\Local\Programs\Python\Python37;C:\Users\l\AppData\Local\Microsoft\WindowsApps;C:\Users\l\AppData\Roaming\npm;C:\Program Files\Microsoft VS Code\bin;C:\Users\l\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\l\AppData\Local\Programs\Fiddler;%USERPROFILE%\AppData\Local\Microsoft\WindowsApps
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  8.11.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\l\git\game-engine-webgl2d-ts\package.json: Unexpected token } in JSON at position 264
+      at JSON.parse (<anonymous>)
+      at C:\Users\l\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\l\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:304:30)
+      at C:\Users\l\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:315:13
+      at <anonymous>
+
+npm manifest: 
+  {
+    "name": "game-engine-webgl2d-ts",
+    "version": "1.0.0",
+    "description": "",
+    "main": "./dist/main.js",
+    "scripts": {
+      "build": "webpack --config webpack.prod.js",
+      "watch": "webpack --watch",
+      "dev": "webpack-serve --hmr false ./webpack.dev.js",
+    },
+    "author": "hikeman09@gmail.com",
+    "license": "ISC",
+    "devDependencies": {
+      "ts-loader": "6.2.0",
+      "tslint": "5.20.0",
+      "typescript": "3.6.3",
+      "webpack": "4.41.0",
+      "webpack-cli": "3.3.9",
+      "webpack-merge": "4.2.2",
+      "webpack-serve": "3.2.0",
+      "worker-loader": "2.0.0",
+      "copy-webpack-plugin": "5.0.4"
+    },
+    "dependencies": {}
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
