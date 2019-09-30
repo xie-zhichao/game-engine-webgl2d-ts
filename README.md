@@ -7,3 +7,4 @@
 - 使用module的组织方式
 - 尽量用const
 - 语法简化
+- 使用WebPack构建
