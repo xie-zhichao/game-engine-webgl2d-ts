@@ -1,7 +1,7 @@
 /**
  * 渲染引擎
  */
-import { WebGLUtils, GLContext } from './gl';
+import { getWebGLContext, WebGLContext } from './gl';
 import { Shader } from './shaders/shader';
 import { Matrix4x4 } from '../math/matrix4x4';
 import { MessageBus } from '../message/messageBus';
@@ -32,7 +32,7 @@ import { BitmapFontManager } from '../graghics/BitmapFontManager';
 import { Vector2 } from '../math/vector2';
 
 export class Engine implements IMessageHandler {
-  private glContext: GLContext;
+  private glContext: WebGLContext;
   private shader: Shader | undefined;
   private projection: Matrix4x4 | undefined;
 
@@ -45,7 +45,7 @@ export class Engine implements IMessageHandler {
   private _aspect: number | undefined;
 
   constructor( elementName?: string, width = 320, height = 480) {
-    this.glContext = WebGLUtils.initialize(elementName);
+    this.glContext = getWebGLContext(elementName);
     this.loop = this.loop.bind(this);
     this.preloading = this.preloading.bind(this);
 
