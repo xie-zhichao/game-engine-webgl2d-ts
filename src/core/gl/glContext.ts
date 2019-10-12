@@ -5,26 +5,19 @@
 /**
  * 初始化后返回的web gl上下文
  */
-export interface WebGLContext {
+interface WebGLContext {
   canvas: HTMLCanvasElement;
   gl: WebGLRenderingContext;
 }
 
-/**
- * 初始化工具类
- */
-
-let glContext: WebGLContext;
+const webGLContexts: WebGLContext[] = [];
+let actived = 0;
 
 /**
- * 启动的时候传elementId初始化，后面直接取
+ * 创建WebGLContext，返回序号，序号用来切换当前激活哪个WebGLContext
  * @param elementId 
  */
-export function getWebGLContext(elementId?: string): WebGLContext {
-  if (glContext !== undefined) {
-    return glContext;
-  }
-
+export function createWebGLContext(elementId?: string): number {
   let canvas: HTMLCanvasElement;
   let gl: WebGLRenderingContext;
 
@@ -44,15 +37,27 @@ export function getWebGLContext(elementId?: string): WebGLContext {
     throw new Error('Can not get webgl context!');
   }
 
-  glContext = {
+  webGLContexts.push({
     canvas,
     gl
-  };
+  });
 
-  return glContext;
+  return webGLContexts.length - 1;
 }
 
+export function getWebGLContext(): WebGLContext {
+  const webGLContext = webGLContexts[actived];
+  if (webGLContext === undefined) {
+    throw new Error(`WebGLContext {${actived}} is not exist.`);
+  }
 
-export default {
-  getWebGLContext
+  return webGLContext;
 }
+
+export function setActiveWebGLContext(active: number): WebGLContext {
+  actived = active;
+  return getWebGLContext();
+}
+
+export default getWebGLContext;
+

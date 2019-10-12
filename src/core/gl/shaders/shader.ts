@@ -1,7 +1,8 @@
+import { getWebGLContext } from "../glContext";
+
 /**
  * 着色器类
  */
-const GL = WebGLRenderingContext;
 export class Shader {
   private _name: string;
   private gl: WebGLRenderingContext;
@@ -9,8 +10,9 @@ export class Shader {
   private attributes: { [name: string]: number } = {};
   private uniforms: { [name: string]: WebGLUniformLocation | null } = {};
 
-  constructor(name: string, gl: WebGLRenderingContext) {
+  constructor(name: string) {
     this._name = name;
+    const { gl } = getWebGLContext();
     this.gl = gl;
   }
 
@@ -90,7 +92,7 @@ export class Shader {
     if (this.program === undefined) {
       throw new Error('program is undefined: this shader maybe not loaded.');
     }
-    const attributeCount = this.gl.getProgramParameter(this.program, GL.ACTIVE_ATTRIBUTES);
+    const attributeCount = this.gl.getProgramParameter(this.program, WebGLRenderingContext.ACTIVE_ATTRIBUTES);
     for (let i = 0; i < attributeCount; i++) {
       const info = this.gl.getActiveAttrib(this.program, i);
       if (!info) {
@@ -105,7 +107,7 @@ export class Shader {
     if (this.program === undefined) {
       throw new Error('program is undefined: this shader maybe not loaded.');
     }
-    const uniformCount = this.gl.getProgramParameter(this.program, GL.ACTIVE_UNIFORMS);
+    const uniformCount = this.gl.getProgramParameter(this.program, WebGLRenderingContext.ACTIVE_UNIFORMS);
     for (let i = 0; i < uniformCount; i++) {
       const info = this.gl.getActiveUniform(this.program, i);
       if (!info) {

@@ -1,3 +1,4 @@
+import { getWebGLContext } from '../gl/glContext';
 import { IMessageHandler } from "../message/IMessageHandler";
 import { Zone } from "./Zone";
 import { AssetManager, MESSAGE_ASSET_LOADER_ASSET_LOADED } from "../assets/assetManager";
@@ -5,25 +6,28 @@ import { Message } from "../message/message";
 import { Shader } from "../gl/shaders/shader";
 import { JsonAsset } from "../assets/JsonAssetLoader";
 
-export class ZoneManager implements IMessageHandler {
+class ZoneLoader implements IMessageHandler {
+  public onMessage(message: Message): void {
+    if (message.code.indexOf(MESSAGE_ASSET_LOADER_ASSET_LOADED) !== -1) {
+      console.log(`zone loaded: ${message.code}`);
+      const asset = message.context as JsonAsset;
+      ZoneManager.loadZone(asset);
+    }
+  }
+}
+
+export class ZoneManager {
   // private static _globalZoneID: number = -1;
   private static _registeredZones: { [id: number]: string } = {};
   private static _acitveZone: Zone | undefined;
-  private static _inst: ZoneManager;
 
-  private _gl: WebGLRenderingContext;
+  private static zoneLoader: ZoneLoader = new ZoneLoader();
 
-  private constructor(gl: WebGLRenderingContext, ) {
-    this._gl = gl;
+  public static initialize(zoneAsset: string): void {
+    ZoneManager._registeredZones[0] = zoneAsset;
   }
 
-  public static initialize(gl: WebGLRenderingContext, ): void {
-    ZoneManager._inst = new ZoneManager(gl);
-
-    ZoneManager._registeredZones[0] = 'resource/zones/testZone.json';
-  }
-
-  public static changeZone(gl: WebGLRenderingContext, id: number): void {
+  public static changeZone(id: number): void {
     if (ZoneManager._acitveZone !== undefined) {
       ZoneManager._acitveZone.onDeactivated();
       ZoneManager._acitveZone.unload();
@@ -37,9 +41,9 @@ export class ZoneManager implements IMessageHandler {
         if (asset === undefined) {
           throw new Error(`can not find asset with zoneId: ${id}`);
         }
-        ZoneManager.loadZone(gl, asset);
+        ZoneManager.loadZone(asset);
       } else {
-        Message.subscribe(MESSAGE_ASSET_LOADER_ASSET_LOADED + ZoneManager._registeredZones[id], ZoneManager._inst);
+        Message.subscribe(MESSAGE_ASSET_LOADER_ASSET_LOADED + ZoneManager._registeredZones[id], ZoneManager.zoneLoader);
         AssetManager.loadAsset(ZoneManager._registeredZones[id]);
       }
     } else {
@@ -59,16 +63,8 @@ export class ZoneManager implements IMessageHandler {
     }
   }
 
-  public onMessage(message: Message): void {
-    if (message.code.indexOf(MESSAGE_ASSET_LOADER_ASSET_LOADED) !== -1) {
-      console.log(`zone loaded: ${message.code}`);
-      const asset = message.context as JsonAsset;
-      ZoneManager.loadZone(this._gl, asset);
-    }
-  }
-
-  private static loadZone(gl: WebGLRenderingContext, asset: JsonAsset): void {
-    console.log(`loading zone: ${asset.name}`);
+  public static loadZone(asset: JsonAsset): void {
+    const { gl } = getWebGLContext();
     const zoneData = asset.data;
 
     let zoneId: number;
